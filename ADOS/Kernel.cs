@@ -1,107 +1,224 @@
-﻿using Cosmos.System;
-using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System;
 using Sys = Cosmos.System;
-using C_Add;
+using Asci = ADOS.Asci;
+using Console = System.Console;
+using Cosmos.System.FileSystem;
 
 namespace ADOS
 {
     public class Kernel : Sys.Kernel
     {
-        String now_logged = "";
-        String directory = "";
+        private readonly static string version = "debug 2023.11.03.0";
+        private readonly static ConsoleColor red = ConsoleColor.Red;
+        private readonly static ConsoleColor green = ConsoleColor.Green;
+        private readonly static ConsoleColor blue = ConsoleColor.Blue;
+        private readonly static ConsoleColor yellow = ConsoleColor.Yellow;
+        private readonly static ConsoleColor black = ConsoleColor.Black;
+        private readonly static ConsoleColor white = ConsoleColor.White;
+        private readonly static ConsoleColor maganta = ConsoleColor.Magenta;
+        private readonly static ConsoleColor cyan = ConsoleColor.Cyan;
+
+        private static string directory = @"0:\";
+
+        private static CosmosVFS fs;
         protected override void BeforeRun()
         {
-            System.Console.Clear();
-            System.Console.ForegroundColor = ConsoleColor.Red; System.Console.Write("AAAA"); System.Console.ForegroundColor = ConsoleColor.Green; System.Console.Write("      "); System.Console.ForegroundColor = ConsoleColor.Blue; System.Console.Write("  DDD "); System.Console.ForegroundColor = ConsoleColor.Yellow; System.Console.Write("  OOOO"); System.Console.ForegroundColor = ConsoleColor.Magenta; System.Console.WriteLine("  SSSS");
-            System.Console.ForegroundColor = ConsoleColor.Red; System.Console.Write("A  A"); System.Console.ForegroundColor = ConsoleColor.Green; System.Console.Write("      "); System.Console.ForegroundColor = ConsoleColor.Blue; System.Console.Write("  D  D"); System.Console.ForegroundColor = ConsoleColor.Yellow; System.Console.Write("  O  O"); System.Console.ForegroundColor = ConsoleColor.Magenta; System.Console.WriteLine("  S   ");
-            System.Console.ForegroundColor = ConsoleColor.Red; System.Console.Write("AAAA"); System.Console.ForegroundColor = ConsoleColor.Green; System.Console.Write(" -----"); System.Console.ForegroundColor = ConsoleColor.Blue; System.Console.Write("  D  D"); System.Console.ForegroundColor = ConsoleColor.Yellow; System.Console.Write("  O  O"); System.Console.ForegroundColor = ConsoleColor.Magenta; System.Console.WriteLine("   SSS");
-            System.Console.ForegroundColor = ConsoleColor.Red; System.Console.Write("A  A"); System.Console.ForegroundColor = ConsoleColor.Green; System.Console.Write("      "); System.Console.ForegroundColor = ConsoleColor.Blue; System.Console.Write("  D  D"); System.Console.ForegroundColor = ConsoleColor.Yellow; System.Console.Write("  O  O"); System.Console.ForegroundColor = ConsoleColor.Magenta; System.Console.WriteLine("     S");
-            System.Console.ForegroundColor = ConsoleColor.Red; System.Console.Write("A  A"); System.Console.ForegroundColor = ConsoleColor.Green; System.Console.Write("      "); System.Console.ForegroundColor = ConsoleColor.Blue; System.Console.Write("  DDD "); System.Console.ForegroundColor = ConsoleColor.Yellow; System.Console.Write("  OOOO"); System.Console.ForegroundColor = ConsoleColor.Magenta; System.Console.WriteLine("  SSS ");
+            fs = new CosmosVFS();
+            Sys.FileSystem.VFS.VFSManager.RegisterVFS(fs);
+            Console.Clear();
 
-            System.Console.ResetColor();
-            System.Console.WriteLine("");
-            System.Console.WriteLine("");
+            Asci.print("ADOS");
+            Console.WriteLine("an open source DOS");
+
+            Console.ResetColor();
+            Console.WriteLine("");
+            Console.WriteLine("");
         }
 
         protected override void Run()
         {
-            run_console(directory);
+            try
+            {
+                Run_console();
+            }
+            catch { BSOD(""); }
         }
-        public void run_console(String directory)
+        private static void Run_console()
         {
-            switch (now_logged)
+            Desktop();
+            Console.ForegroundColor = ConsoleColor.Gray;
+            Console.Write(directory);
+            Console.ResetColor();
+            Console.Write(">");
+            var input = Console.ReadLine();
+            switch (input)
             {
                 default:
-                    //System.Console.Clear();
-                    System.Console.Write("Login: ");
-                    var login = System.Console.ReadLine();
-                    System.Console.Write("password: ");
-                    var password = System.Console.ReadLine();
-                    switch (login)
+                    Cerror("Command not found!");
+                    break;
+                case "help":
+                    Set_color(red);
+                    Asci.print("HELP");
+                    Set_color(cyan);
+                    Console.WriteLine("Power:");
+                    Console.ResetColor();
+
+                    Console.WriteLine("shutdown - shutdown");
+                    Console.WriteLine("reboot - restart");
+
+                    Set_color(cyan);
+                    Console.WriteLine("File System controll:");
+                    Console.ResetColor();
+                    break;
+                case "reboot":
+                    Reboot();
+                    break;
+                case "shutdown":
+                    Shutdown();
+                    break;
+                case "bsod":
+                    BSOD("Manual crash");
+                    break;
+                case "mkfile":
+                    Console.WriteLine("name:");
+                    fs.CreateFile(directory+Console.ReadLine());
+                    break;
+                case "mkdir":
+                    Console.WriteLine("name:");
+                    fs.CreateDirectory(directory + Console.ReadLine());
+                    break;
+                case "delfile":
+                    Console.WriteLine("name:");
+                    Sys.FileSystem.VFS.VFSManager.DeleteFile(directory + Console.ReadLine());
+                    break;
+                case "deldir":
+                    Console.WriteLine("name:");
+                    Sys.FileSystem.VFS.VFSManager.DeleteFile(directory + Console.ReadLine());
+                    break;
+                case "cd":
+                    directory = Console.ReadLine();
+                    break;
+                case "dir":
+                    try
                     {
-                        default:
-                            cerror("User not found!");
-                            break;
-                        case "roma":
-                            if (password == "1234")
+                        var directory_list = Sys.FileSystem.VFS.VFSManager.GetDirectoryListing(directory);
+                        foreach (var directoryEntry in directory_list)
+                        {
+                            try
                             {
-                                now_logged = "roma";
-                                System.Console.Clear();
-                                System.Console.WriteLine("Welcome," + now_logged);
+                                var entry_type = directoryEntry.mEntryType;
+                                if (entry_type == Sys.FileSystem.Listing.DirectoryEntryTypeEnum.File)
+                                {
+                                    Console.ForegroundColor = ConsoleColor.Magenta;
+                                    Console.WriteLine("|file|      " + directoryEntry.mName);
+                                    Console.ForegroundColor = ConsoleColor.White;
+                                }
+                                if (entry_type == Sys.FileSystem.Listing.DirectoryEntryTypeEnum.Directory)
+                                {
+                                    Console.ForegroundColor = ConsoleColor.Blue;
+                                    Console.WriteLine("|directory| " + directoryEntry.mName);
+                                    Console.ForegroundColor = ConsoleColor.White;
+                                }
                             }
-                            else
+                            catch (Exception e)
                             {
-                                cerror("Wrong password!");
+                                Console.WriteLine("Error: Directory not found");
+                                Console.WriteLine(e.ToString());
                             }
-                            break;
+
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        Console.WriteLine(ex.ToString());
                     }
                     break;
-                case "roma":
-                    System.Console.ForegroundColor = ConsoleColor.Gray;
-                    System.Console.Write(directory);
-                    System.Console.ResetColor();
-                    System.Console.Write(">");
-                    var input = System.Console.ReadLine();
-                    switch (input)
-                    {
-                        default:
-                            cerror("Command not found!");
-                            break;
-                        case "help":
-                            System.Console.WriteLine("Power:");
-                            System.Console.WriteLine("shutdown - shutdown");
-                            System.Console.WriteLine("reboot - restart");
-                            System.Console.WriteLine("logout - logout");
-                            System.Console.WriteLine("User controll:");
-                            System.Console.WriteLine("whoami - user where you are");
-                            break;
-                        case "reboot":
-                            Sys.Power.Reboot();
-                            break;
-                        case "shutdown":
-                            Sys.Power.Shutdown();
-                            break;
-                        case "logout":
-                            now_logged = "";
-                            System.Console.Clear();
-                            break;
-                        case "whoami":
-                            System.Console.WriteLine(now_logged);
-                            break;
-                    }
+                case "about":
+                    Console.Clear();
+
+                    Set_bg(maganta);
+                    Asci.print("ADOS");
+                    Console.WriteLine("an open source DOS");
+                    Console.WriteLine(version);
+                    Console.ResetColor();
+                    Console.WriteLine("");
+                    Console.WriteLine("");
                     break;
             }
 
+            Console.ReadLine();
         }
 
-        public void cerror(string message)
+        private static void Cerror(string message)
         {
-            System.Console.ForegroundColor = ConsoleColor.Red;
-            System.Console.WriteLine("Error!");
-            System.Console.WriteLine(message);
-            System.Console.ResetColor();
+            Console.ForegroundColor = ConsoleColor.Red;
+            Console.WriteLine("Error!");
+            Console.WriteLine(message);
+            Console.ResetColor();
+        }
+        private static void BSOD(String error)
+        {
+            Console.Clear();
+            Asci.print("  ADOS  ");
+            Asci.print("  CRASH ");
+            Console.WriteLine(error);
+            Console.ReadLine();
+            Reboot();
+        }
+        private static void Set_color(ConsoleColor color) { Console.ForegroundColor = color; }
+        private static void Set_bg(ConsoleColor color) { Console.BackgroundColor = color; }
+
+        private static void Shutdown()
+        {
+            Sys.Power.Shutdown();
+            Console.WriteLine("It's now save to turn off virtual machine");
+        }
+
+        private static void Reboot()
+        {
+            Sys.Power.Reboot();
+            Console.WriteLine("It's now save to reboot virtual machine");
+        }
+
+        private static void Desktop()
+        {
+            Console.Clear();
+            Console.WriteLine(DateTime.Now);
+            Set_color(ConsoleColor.Green);
+            Console.WriteLine(directory);
+            try
+            {
+                var directory_list = Sys.FileSystem.VFS.VFSManager.GetDirectoryListing(directory);
+                foreach (var directoryEntry in directory_list)
+                {
+                    try
+                    {
+                        var entry_type = directoryEntry.mEntryType;
+                        if (entry_type == Sys.FileSystem.Listing.DirectoryEntryTypeEnum.File)
+                        {
+                            Console.ForegroundColor = ConsoleColor.Magenta;
+                            Console.WriteLine("|file|      " + directoryEntry.mName);
+                            Console.ForegroundColor = ConsoleColor.White;
+                        }
+                        if (entry_type == Sys.FileSystem.Listing.DirectoryEntryTypeEnum.Directory)
+                        {
+                            Console.ForegroundColor = ConsoleColor.Blue;
+                            Console.WriteLine("|directory| " + directoryEntry.mName);
+                            Console.ForegroundColor = ConsoleColor.White;
+                        }
+                    }
+                    catch (Exception e)
+                    {
+                        Console.WriteLine("Error: Directory not found");
+                        Console.WriteLine(e.ToString());
+                    }
+
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.ToString());
+            }
         }
     }
 }
