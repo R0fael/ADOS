@@ -20,6 +20,7 @@
         <CompileVBEMultiboot>False</CompileVBEMultiboot>
         <VBEResolution>1080x920x32</VBEResolution>
         <RemoveBootDebugOutput>True</RemoveBootDebugOutput>
+        <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     </PropertyGroup>
 
     <ItemGroup>
@@ -27,5 +28,9 @@
         <PackageReference Include="Cosmos.Debug.Kernel" Version="0-*" NoWarn="NU1604" />
         <PackageReference Include="Cosmos.System2" Version="0-*" NoWarn="NU1604" />
     </ItemGroup>
+    
+    <!--><ItemGroup>
+        <PackageReference Include="CosmosFtpServer" Version="1.0.5" NoWarn="NU1604;NU1605" />
+    </ItemGroup>-->
 
 </Project>
