@@ -11,44 +11,62 @@ namespace ADOS
 {
     public static class Tools
     {
-        public readonly static string version = "debug 2023.11.03.0";
+        public readonly static string version = "debug 2023.11.07.0";
 
         public static void About()
         {
             Console.Clear();
-            ConsoleX.Set_bg(ConsoleX.maganta);
-            Asci.print("ADOS");
-            Console.WriteLine("an open source DOS");
-            Console.WriteLine(version);
-            Console.ResetColor();
-            Console.WriteLine("");
-            Console.WriteLine("");
+            Asci_Art.Print("ADOS");
+            ConsoleX.Print("an open source DOS");
+            ConsoleX.Print("made by R0fael");
+            ConsoleX.Print("Version:");
+            ConsoleX.Print(version);
+            ConsoleX.Print("");
+            ConsoleX.Print("");
         }
 
         public static void Help()
         {
             ConsoleX.Set_color(ConsoleX.red);
-            Asci.print("HELP");
+            Asci_Art.Print("HELP");
             ConsoleX.Set_color(ConsoleX.cyan);
-            Console.WriteLine("Power:");
+            ConsoleX.Print("Power:");
             Console.ResetColor();
 
-            Console.WriteLine("shutdown - shutdown");
-            Console.WriteLine("reboot - restart");
+            ConsoleX.Print("shutdown - shutdown");
+            ConsoleX.Print("reboot - restart");
 
             ConsoleX.Set_color(ConsoleX.cyan);
-            Console.WriteLine("File System controll:");
+            ConsoleX.Print("File System controll:");
             Console.ResetColor();
 
-            Console.WriteLine("mkfile - makes a file");
-            Console.WriteLine("mkdir - makes dir");
-            Console.WriteLine("delfile - delets file");
-            Console.WriteLine("deldir - delets directory");
+            ConsoleX.Print("mkfile - makes a file");
+            ConsoleX.Print("mkdir - makes dir");
+            ConsoleX.Print("delfile - delets file");
+            ConsoleX.Print("deldir - delets directory");
 
-            Console.WriteLine("cd - changes local path");
-            Console.WriteLine("cdf - changes global path");
+            ConsoleX.Print("cd - changes local path");
+            ConsoleX.Print("cdf - changes global path");
 
             Console.WriteLine("movfile - moves file");
+
+            ConsoleX.Set_color(ConsoleX.cyan);
+            ConsoleX.Print("Internet:");
+            Console.ResetColor();
+            ConsoleX.Print("ip - gets current ip adress");
+
+            ConsoleX.Set_color(ConsoleX.cyan);
+            ConsoleX.Print("Test Functions:");
+            Console.ResetColor();
+            ConsoleX.Print("bsod - call Blacl Screen Of Death");
+            ConsoleX.Print("asci - write big letters that made from asci symbols");
+
+            ConsoleX.Set_color(ConsoleX.cyan);
+            ConsoleX.Print("System Functions:");
+            Console.ResetColor();
+            ConsoleX.Print("about - gets the version and info about OS");
+            ConsoleX.Print("time - gets time and date");
+            ConsoleX.Print("gosl - get potentional list of OSes that may installed on this PC");
         }
     }
 }

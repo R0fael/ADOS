@@ -47,13 +47,25 @@ namespace ADOS
         public static void CreateFile(string name) {
             try
             {
-                fs.CreateFile(directory + name);
+                if (!DoesExist(directory + name))
+                {
+                    fs.CreateFile(directory + name);
+                }
+                else { ConsoleX.Cerror("Directory Already Exist"); }
             }
             catch (Exception e) { ConsoleX.Cerror(e.ToString()); }
         }
         public static void CreateDir(string name)
         {
-            fs.CreateDirectory(directory + name);
+            try
+            {
+                if (!DoesExist(directory + name))
+                {
+                    fs.CreateDirectory(directory + name);
+                }
+                else { ConsoleX.Cerror("Directory Already Exist"); }
+            }
+            catch (Exception e) { ConsoleX.Cerror(e.ToString()); }
         }
 
         public static void DeleteFile(string name)
@@ -111,19 +123,19 @@ namespace ADOS
                         if (entry_type == Sys.FileSystem.Listing.DirectoryEntryTypeEnum.File)
                         {
                             Console.ForegroundColor = ConsoleColor.Magenta;
-                            Console.WriteLine("|file|      " + directoryEntry.mName);
+                            ConsoleX.Print("|file|      " + directoryEntry.mName);
                             Console.ForegroundColor = ConsoleColor.White;
                         }
                         if (entry_type == Sys.FileSystem.Listing.DirectoryEntryTypeEnum.Directory)
                         {
                             Console.ForegroundColor = ConsoleColor.Blue;
-                            Console.WriteLine("|directory| " + directoryEntry.mName);
+                            ConsoleX.Print("|directory| " + directoryEntry.mName);
                             Console.ForegroundColor = ConsoleColor.White;
                         }
                     }
                     catch (Exception e)
                     {
-                        Console.WriteLine("Error: Directory not found");
+                        ConsoleX.Cerror("Directory not found");
                         Console.WriteLine(e.ToString());
                     }
 
@@ -137,13 +149,13 @@ namespace ADOS
 
         public static void Info(string file)
         {
-            Console.WriteLine("name          : " + fs.GetFile(directory + file).mName);
-            Console.WriteLine("size          : " + fs.GetFile(directory + file).mSize);
+            ConsoleX.Print("name          : " + fs.GetFile(directory + file).mName);
+            ConsoleX.Print("size          : " + fs.GetFile(directory + file).mSize);
             //Console.WriteLine("creation time : " + File.GetCreationTime(directory + file));
             //Console.WriteLine("edit time     : " + File.GetLastWriteTime(directory + file));
         }
 
-        public static string ReadFile(string path)
+        public static string ReadFile(string path,bool error = false)
         {
             try
             {
@@ -151,8 +163,15 @@ namespace ADOS
             }
             catch (Exception ex)
             {
-                ConsoleX.Cerror(ex.ToString());
-                return null;
+                if (!error)
+                {
+                    ConsoleX.Cerror(ex.ToString());
+                    return null;
+                }
+                else
+                {
+                    throw new Exception("Random Error");
+                }
             }
         }
 
@@ -175,6 +194,16 @@ namespace ADOS
         public static void GetSpace(string disk)
         {
             fs.GetVolume(disk);
+        }
+
+        public static bool DoesExist(string path)
+        {
+            try
+            {
+                ReadFile(path,true);
+                return true;
+            }
+            catch { return false; }
         }
     }
 }

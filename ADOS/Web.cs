@@ -19,12 +19,27 @@ namespace ADOS
     {
         public static void StaticIP(string device_name = "eth0")
         {
-            NetworkDevice nic = NetworkDevice.GetDeviceByName(device_name);
-            IPConfig.Enable(nic, new Address(192, 168, 1, 69), new Address(255, 255, 255, 0), new Address(192, 168, 1, 254));
+            try
+            {
+                NetworkDevice nic = NetworkDevice.GetDeviceByName(device_name);
+                IPConfig.Enable(nic, new Address(192, 168, 1, 69), new Address(255, 255, 255, 0), new Address(192, 168, 1, 254));
+            }
+            catch {
+                Console.WriteLine("Error with the Internet Connection");
+                Console.WriteLine("Today no internet :(");
+            }
         }
         public static void DinamicIP(DHCPClient xClient)
         {
-            xClient.SendDiscoverPacket();
+            try
+            {
+                xClient.SendDiscoverPacket();
+                Console.WriteLine("Connected To internet sucesfully");
+            }
+            catch {
+                Console.WriteLine("Retrying...");
+                StaticIP();
+            }
         }
 
         public static void TCP_Server(TcpListener xServer,string s)
@@ -59,23 +74,23 @@ namespace ADOS
             return res;
 
         }
-        public static void UDP_Client(UdpClient xClient, Address adreess, int port, string s)
+        public static byte[] UDP_Client(UdpClient xClient, Address adreess, int port, string s)
         {
             xClient.Connect(adreess, port);
 
             xClient.Send(Encoding.ASCII.GetBytes(s));
 
             var endpoint = new Cosmos.System.Network.IPv4.EndPoint(Address.Zero, 0);
-            var data = xClient.Receive(ref endpoint);
+            return xClient.Receive(ref endpoint);
         }
-        public static void TCMP_Client(ICMPClient xClient,Address address)
+        public static int TCMP_Client(ICMPClient xClient,Address address)
         {
             xClient.Connect(address);
 
             xClient.SendEcho();
 
             var endpoint = new Cosmos.System.Network.IPv4.EndPoint(Address.Zero, 0);
-            int time = xClient.Receive(ref endpoint);
+            return xClient.Receive(ref endpoint);
         }
         public static Address DNS_Client(DnsClient xClient,Address address,string url)
         {
