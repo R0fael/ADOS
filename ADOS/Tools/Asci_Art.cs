@@ -4,11 +4,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ADOS
+namespace ADOS.Tools
 {
     public static class Asci_Art
     {
-        public static string gradient = " .:r(l1Z4H9W8$@";
+        public readonly static string gradient = " .:r(l1Z4H9W8$@";
         /*
         public static string[,] symbols = {
             {"@@@@",
@@ -334,20 +334,22 @@ namespace ADOS
                                 "@@@@",};
 
         #endregion
-        
-        
-        public static string[] Symbol_Change (string[] symbol_big, char symbol = '@')
-        {
-            return new string[] { symbol_big[0].Replace('@',symbol), symbol_big[1].Replace('@', symbol), symbol_big[2].Replace('@', symbol), symbol_big[3].Replace('@', symbol), symbol_big[4].Replace('@', symbol), };
-        }
-        
 
-        public static string[] Symbol(char sym,char symbol)
+        #region puictures
+        public static string[] Piramid = { "    ", "@   ", "@@  ", "@@@ ", "@@@@" };
+        #endregion
+        public static string[] Symbol_Change(string[] symbol_big, char symbol = '@')
+        {
+            return new string[] { symbol_big[0].Replace('@', symbol), symbol_big[1].Replace('@', symbol), symbol_big[2].Replace('@', symbol), symbol_big[3].Replace('@', symbol), symbol_big[4].Replace('@', symbol), };
+        }
+
+
+        public static string[] Symbol(char sym, char symbol)
         {
             return sym switch
             {
-                'A' => Symbol_Change(A,symbol),
-                'B' => Symbol_Change(B,symbol),
+                'A' => Symbol_Change(A, symbol),
+                'B' => Symbol_Change(B, symbol),
                 'C' => Symbol_Change(C, symbol),
                 'D' => Symbol_Change(D, symbol),
                 'E' => Symbol_Change(E, symbol),
@@ -379,14 +381,14 @@ namespace ADOS
             };
         }
 
-        public static string[] Text(string txt,char symbol = '@')
+        public static string[] Text(string txt, char symbol = '@')
         {
 
             string[] reg = { "", "", "", "", "" };
             string[] load;
             foreach (char s in txt)
             {
-                load = Symbol(s,symbol);
+                load = Symbol(s, symbol);
                 reg[0] += load[0] + "  ";
                 reg[1] += load[1] + "  ";
                 reg[2] += load[2] + "  ";
@@ -396,18 +398,18 @@ namespace ADOS
             return reg;
         }
 
-        public static void Print_asci(string[] txt,char symbol = '@')
+        public static void Print_asci(string[] txt, char symbol = '@')
         {
-            Console.WriteLine(txt[0],symbol);
-            Console.WriteLine(txt[1],symbol);
+            Console.WriteLine(txt[0], symbol);
+            Console.WriteLine(txt[1], symbol);
             Console.WriteLine(txt[2], symbol);
             Console.WriteLine(txt[3], symbol);
             Console.WriteLine(txt[4], symbol);
         }
 
-        public static void Print(string txt,char symbol = '@')
+        public static void Print(string txt, char symbol = '@')
         {
-            Print_asci(Text(txt,symbol),symbol);
+            Print_asci(Text(txt, symbol), symbol);
         }
     }
 }

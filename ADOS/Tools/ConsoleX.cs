@@ -4,11 +4,11 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Power = ADOS.PowerControl;
+using Power = ADOS.Tools.PowerControl;
 
-namespace ADOS
+namespace ADOS.Tools
 {
-    public static class ConsoleUtilits
+    public static class ConsoleX
     {
         public readonly static short width = 90;
         public readonly static short height = 60;
@@ -57,12 +57,14 @@ namespace ADOS
             Console.WriteLine("Console UI booted sucessfully");
         }
 
-        public static void Print(string txt,string empty = " ",ConsoleColor topcolor = defaultFoeground, ConsoleColor dowcolor = defaultBackground) {
-            Console.SetCursorPosition(2,Console.GetCursorPosition().Top);
+        public static void Print(string txt, string empty = " ", ConsoleColor topcolor = defaultFoeground, ConsoleColor dowcolor = defaultBackground)
+        {
+            Console.SetCursorPosition(2, Console.GetCursorPosition().Top);
             Set_color(topcolor);
             Set_bg(dowcolor);
             Console.Write(txt);
-            for (int i = txt.Length; i < 90; i++) {
+            for (int i = txt.Length; i < 90; i++)
+            {
                 Console.Write(empty);
             }
         }

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using ConsoleX = ADOS.ConsoleUtilits;
+using ConsoleX = ADOS.Tools.ConsoleX;
 using FileSystem = ADOS.FileSystem;
 
 namespace ADOS

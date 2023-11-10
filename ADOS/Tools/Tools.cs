@@ -5,13 +5,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Console = System.Console;
-using ConsoleX = ADOS.ConsoleUtilits;
+using ConsoleX = ADOS.Tools.ConsoleX;
 
-namespace ADOS
+namespace ADOS.Tools
 {
     public static class Tools
     {
-        public readonly static string version = "debug 2023.11.07.0";
+        public static readonly string version = "debug 2023.11.07.0";
 
         public static void About()
         {

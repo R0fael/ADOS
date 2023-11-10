@@ -4,17 +4,19 @@ using System.Linq;
 using System.Numerics;
 using System.Text;
 using System.Threading.Tasks;
-using ConsoleX = ADOS.ConsoleUtilits;
+using ConsoleX = ADOS.Tools.ConsoleX;
 
-namespace ADOS
+namespace ADOS.Things
 {
     public class Engine2D
     {
-        public static void DrawSquare(Vector2 pos1, Vector2 pos2,char symbol)
+        public static void DrawSquare(Vector2 pos1, Vector2 pos2, char symbol)
         {
-            Console.SetCursorPosition((int)pos1.X,(int)pos1.Y);
-            for (int i = (int)pos1.Y; i < (int)pos2.Y; i++) {
-                for (int j = (int)pos1.X; j < (int)pos2.X; j++) {
+            Console.SetCursorPosition((int)pos1.X, (int)pos1.Y);
+            for (int i = (int)pos1.Y; i < (int)pos2.Y; i++)
+            {
+                for (int j = (int)pos1.X; j < (int)pos2.X; j++)
+                {
                     Console.Write(symbol);
                 }
                 Console.WriteLine();
@@ -44,8 +46,11 @@ namespace ADOS
             int numerator = longest >> 1;
             for (int i = 0; i <= longest; i++)
             {
-                Console.SetCursorPosition(x, y);
-                Console.Write(symbol);
+                if (x! < 0 && x! > 88 && y! < 0 && y! > 59)
+                {
+                    Console.SetCursorPosition(x, y);
+                    Console.Write(symbol);
+                }
                 numerator += shortest;
                 if (!(numerator < longest))
                 {
@@ -61,9 +66,9 @@ namespace ADOS
             }
         }
 
-        public static void DrawPolygon(Vector2[] points,char symbol)
+        public static void DrawPolygon(Vector2[] points, char symbol)
         {
-            for (int i = 0;i < points.Length;i++)
+            for (int i = 0; i < points.Length; i++)
             {
                 if (i != points.Length - 1)
                 {

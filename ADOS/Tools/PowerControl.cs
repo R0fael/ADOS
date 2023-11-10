@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Sys = Cosmos.System;
-using ConsoleX = ADOS.ConsoleUtilits;
+using ConsoleX = ADOS.Tools.ConsoleX;
 
-namespace ADOS
+namespace ADOS.Tools
 {
     public static class PowerControl
     {

@@ -1,21 +1,23 @@
 ﻿using System;
 using Sys = Cosmos.System;
-using Asci = ADOS.Asci_Art;
+using Asci = ADOS.Tools.Asci_Art;
 using Console = System.Console;
 using Cosmos.System.FileSystem;
 using System.IO;
 using System.Runtime.Versioning;
 using FileSystem = ADOS.FileSystem;
-using Power = ADOS.PowerControl;
-using ConsoleX = ADOS.ConsoleUtilits;
+using Power = ADOS.Tools.PowerControl;
+using ConsoleX = ADOS.Tools.ConsoleX;
 using Cosmos.System;
-using Web = ADOS.Web;
+using Web = ADOS.Tools.Web;
 using Cosmos.System.Network.IPv4.UDP.DNS;
 using Cosmos.System.Network.IPv4;
 using Cosmos.System.Network.Config;
 using Getos = ADOS.GetOSes;
-using Engine2d = ADOS.Engine2D;
+using Engine2d = ADOS.Things.Engine2D;
 using System.Numerics;
+using System.Threading;
+using ADOS.Tools;
 
 namespace ADOS
 {
@@ -31,7 +33,7 @@ namespace ADOS
         FileSystem.Dir();
     }
 
-    public static void commands(string input)
+    public static void Run(string input)
     {
         switch (input)
         {
@@ -39,7 +41,7 @@ namespace ADOS
                 ConsoleX.Cerror("Command not found!");
                 break;
             case "help":
-                Tools.Help();
+                Tools.Tools.Help();
                 break;
             case "reboot":
                 Power.Reboot();
@@ -77,7 +79,7 @@ namespace ADOS
 
                 break;
             case "about":
-                Tools.About();
+                Tools.Tools.About();
                 break;
 
             case "readfile":

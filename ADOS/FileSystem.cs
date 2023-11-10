@@ -8,8 +8,8 @@ using System.Text;
 using System.Threading.Tasks;
 using Sys = Cosmos.System;
 using Console = System.Console;
-using ConsoleX = ADOS.ConsoleUtilits;
-using Power = ADOS.PowerControl;
+using ConsoleX = ADOS.Tools.ConsoleX;
+using Power = ADOS.Tools.PowerControl;
 using System.Security.Cryptography.X509Certificates;
 
 namespace ADOS
@@ -102,7 +102,7 @@ namespace ADOS
                 {
                     newp += s+@"\";
                 }
-                path = newp;
+                directory = newp;
             }
             else
             {

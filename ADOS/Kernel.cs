@@ -1,19 +1,19 @@
 ﻿using System;
 using Sys = Cosmos.System;
-using Asci = ADOS.Asci_Art;
+using Asci = ADOS.Tools.Asci_Art;
 using Console = System.Console;
 using Cosmos.System.FileSystem;
 using System.IO;
 using System.Runtime.Versioning;
 using FileSystem = ADOS.FileSystem;
-using Power = ADOS.PowerControl;
-using ConsoleX = ADOS.ConsoleUtilits;
+using Power = ADOS.Tools.PowerControl;
+using ConsoleX = ADOS.Tools.ConsoleX;
 using Cosmos.System;
-using Web = ADOS.Web;
+using Web = ADOS.Tools.Web;
 using Cosmos.System.Network.IPv4.UDP.DNS;
 using Cosmos.System.Network.IPv4;
 using Cosmos.System.Network.Config;
-using CLI = ADOS.CLI;
+using CLI = ADOS.Things.CLI;
 using Getos = ADOS.GetOSes;
 using System.Threading;
 using System.Threading.Tasks;
@@ -40,7 +40,7 @@ namespace ADOS
             }
             catch (Exception e) { ConsoleX.CriticalError(e.ToString()); }
         }
-        private async void Run_console()
+        private void Run_console()
         {
             CLI.Update();
         }

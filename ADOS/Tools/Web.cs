@@ -13,7 +13,7 @@ using Cosmos.System.Network.IPv4.UDP;
 using Cosmos.System.Network.IPv4.UDP.DHCP;
 using Cosmos.System.Network.IPv4.UDP.DNS;
 
-namespace ADOS
+namespace ADOS.Tools
 {
     public class Web
     {
@@ -24,7 +24,8 @@ namespace ADOS
                 NetworkDevice nic = NetworkDevice.GetDeviceByName(device_name);
                 IPConfig.Enable(nic, new Address(192, 168, 1, 69), new Address(255, 255, 255, 0), new Address(192, 168, 1, 254));
             }
-            catch {
+            catch
+            {
                 Console.WriteLine("Error with the Internet Connection");
                 Console.WriteLine("Today no internet :(");
             }
@@ -36,13 +37,14 @@ namespace ADOS
                 xClient.SendDiscoverPacket();
                 Console.WriteLine("Connected To internet sucesfully");
             }
-            catch {
+            catch
+            {
                 Console.WriteLine("Retrying...");
                 StaticIP();
             }
         }
 
-        public static void TCP_Server(TcpListener xServer,string s)
+        public static void TCP_Server(TcpListener xServer, string s)
         {
             xServer.Start();
             var client = xServer.AcceptTcpClient();
@@ -50,7 +52,7 @@ namespace ADOS
             client.Send(Encoding.ASCII.GetBytes(s));
         }
 
-        public static string[] TCP_Client(TcpClient xClient,Address adreess,int port,string s)
+        public static string[] TCP_Client(TcpClient xClient, Address adreess, int port, string s)
         {
             xClient.Connect(adreess, port);
 
@@ -63,14 +65,15 @@ namespace ADOS
             string a = "";
             string b = "";
 
-            foreach (var packet in data) {
-                a+= packet;
+            foreach (var packet in data)
+            {
+                a += packet;
             }
             foreach (var packet in data2)
             {
                 b += packet;
             }
-            string[] res = { a, b }; 
+            string[] res = { a, b };
             return res;
 
         }
@@ -83,7 +86,7 @@ namespace ADOS
             var endpoint = new Cosmos.System.Network.IPv4.EndPoint(Address.Zero, 0);
             return xClient.Receive(ref endpoint);
         }
-        public static int TCMP_Client(ICMPClient xClient,Address address)
+        public static int TCMP_Client(ICMPClient xClient, Address address)
         {
             xClient.Connect(address);
 
@@ -92,7 +95,7 @@ namespace ADOS
             var endpoint = new Cosmos.System.Network.IPv4.EndPoint(Address.Zero, 0);
             return xClient.Receive(ref endpoint);
         }
-        public static Address DNS_Client(DnsClient xClient,Address address,string url)
+        public static Address DNS_Client(DnsClient xClient, Address address, string url)
         {
             xClient.Connect(address);
 
