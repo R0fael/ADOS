@@ -23,11 +23,11 @@ namespace ADOS
         {
             try
             {
-                Directory.Move(file, newpath);
+                Directory.Move(directory + file, newpath);
             }
             catch (Exception e)
             {
-                Console.WriteLine(e);
+                ConsoleX.Cerror(e.ToString());
             }
         }
 
@@ -35,12 +35,12 @@ namespace ADOS
         {
             try
             {
-                File.Copy(file, newpath);
+                File.Copy(directory+file, newpath);
                 File.Delete(file);
             }
             catch (Exception e)
             {
-                Console.WriteLine(e);
+                ConsoleX.Cerror(e.ToString());
             }
         }
 
@@ -51,7 +51,7 @@ namespace ADOS
                 {
                     fs.CreateFile(directory + name);
                 }
-                else { ConsoleX.Cerror("Directory Already Exist"); }
+                else { ConsoleX.Cerror("File Already Exist"); }
             }
             catch (Exception e) { ConsoleX.Cerror(e.ToString()); }
         }
@@ -136,14 +136,13 @@ namespace ADOS
                     catch (Exception e)
                     {
                         ConsoleX.Cerror("Directory not found");
-                        Console.WriteLine(e.ToString());
                     }
 
                 }
             }
             catch (Exception ex)
             {
-                Console.WriteLine(ex.ToString());
+                ConsoleX.Cerror(ex.ToString());
             }
         }
 

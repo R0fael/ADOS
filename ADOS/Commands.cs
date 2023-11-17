@@ -76,7 +76,7 @@ namespace ADOS
                 FileSystem.directory = Console.ReadLine();
                 break;
             case "dir":
-
+                FileSystem.Dir();
                 break;
             case "about":
                 Tools.Tools.About();
